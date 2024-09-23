@@ -51,10 +51,8 @@ func (n Name) String() string {
 	}
 }
 
-func (r Result) String() string {
+func (r Result) InfoText() string {
 	var w bytes.Buffer
-
-	fmt.Fprintf(&w, "%15s: ", r.IP)
 
 	if s := r.Continent.String(); s != "" {
 		w.WriteString(s)
@@ -67,24 +65,27 @@ func (r Result) String() string {
 	}
 
 	if s := r.Subdivision.String(); s != "" {
-		w.WriteString("省:")
 		w.WriteString(s)
 		w.WriteString(", ")
 	}
 
 	if s := r.City.String(); s != "" {
-		w.WriteString("城:")
 		w.WriteString(s)
 		w.WriteString(", ")
 	}
 
 	if r.ISP != "" {
-		w.WriteString("运:")
 		w.WriteString(r.ISP)
 		w.WriteString(", ")
 	}
 
-	w.Truncate(w.Len() - 2)
+	if w.Len() > 2 {
+		w.Truncate(w.Len() - 2)
+	}
 
 	return w.String()
+}
+
+func (r Result) String() string {
+	return fmt.Sprintf("%15s: %s", r.IP, r.InfoText())
 }

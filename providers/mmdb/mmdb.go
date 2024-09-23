@@ -23,6 +23,10 @@ type Options struct {
 	DownloadUrl string
 }
 
+func Default() (p ip2region.Provider, err error) {
+	return Open(context.Background(), fileio.DataFile("ip2region.mmdb"), nil)
+}
+
 func Open(ctx context.Context, dbFile string, options *Options) (p ip2region.Provider, err error) {
 	if options == nil {
 		options = &Options{}
